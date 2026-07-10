@@ -2,6 +2,12 @@ from django.contrib import admin
 
 from .models import Product, ProductImage, ProductVariant
 
+from .models import (
+    Product,
+    ProductImage,
+    ProductVariant,
+    Inventory,
+)
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -38,3 +44,18 @@ class ProductAdmin(admin.ModelAdmin):
         ProductImageInline,
         ProductVariantInline,
     ]
+
+@admin.register(Inventory)
+class InventoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "variant",
+        "quantity",
+        "reserved_quantity",
+        "available_quantity",
+        "low_stock_threshold",
+    )
+
+    search_fields = (
+        "variant__sku",
+        "variant__product__name",
+    )
